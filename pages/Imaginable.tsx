@@ -136,7 +136,7 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
                     `}
                   >
                     {RATIO_OPTIONS.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label.split(' ')[0]}</option>
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
                     ))}
                   </select>
                 </div>
