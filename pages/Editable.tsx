@@ -89,7 +89,7 @@ const Editable: React.FC<EditableProps> = ({ darkMode, onSave }) => {
                 className="w-full h-14 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-red-900/20 transition-all disabled:opacity-50"
               >
                 {isEditing ? <Loader2 className="animate-spin" size={24} /> : <Wand2 size={24} />}
-                <span className="tracking-widest uppercase">Apply Edit</span>
+                <span className="tracking-widest uppercase">Edit</span>
               </button>
             </div>
           </div>
