@@ -10,7 +10,7 @@ import { AppTab, GeneratedImage } from './types';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AppTab>(AppTab.IMAGINABLE);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [collections, setCollections] = useState<GeneratedImage[]>([]);
 
@@ -53,14 +53,19 @@ const App: React.FC = () => {
     <div className={`min-h-screen flex ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-black'}`}>
       <Sidebar 
         isOpen={isSidebarOpen} 
-        setIsOpen={setIsSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
         darkMode={darkMode}
       />
-      <main className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-        <div className="p-6 overflow-y-auto max-h-[calc(100vh-4rem)] custom-scrollbar">
+      {/* Main container no longer needs margin-left as sidebar is off-canvas overlay */}
+      <main className="flex-1 flex flex-col min-w-0">
+        <Navbar 
+          darkMode={darkMode} 
+          setDarkMode={setDarkMode} 
+          toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+        />
+        <div className="p-4 md:p-6 lg:p-10 overflow-y-auto max-h-[calc(100vh-4rem)] custom-scrollbar">
           {renderContent()}
         </div>
       </main>

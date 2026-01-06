@@ -16,11 +16,12 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar })
       <div className="flex items-center gap-4">
         <button 
           onClick={toggleSidebar}
-          className={`p-2 rounded-lg lg:hidden ${darkMode ? 'text-white hover:bg-white/10' : 'text-black hover:bg-black/5'}`}
+          className={`p-2 rounded-lg transition-colors ${darkMode ? 'text-white hover:bg-white/10' : 'text-black hover:bg-black/5'}`}
+          aria-label="Toggle Menu"
         >
           <Menu size={20} />
         </button>
-        <h2 className={`font-semibold ${darkMode ? 'text-white' : 'text-black'}`}>Studio Dashboard</h2>
+        <h2 className={`font-semibold hidden sm:block ${darkMode ? 'text-white' : 'text-black'}`}>Studio Dashboard</h2>
       </div>
 
       <div className="flex items-center gap-4">
@@ -32,8 +33,14 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar })
         >
           {darkMode ? <Sun size={20} /> : <Moon size={20} />}
         </button>
-        <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-xs">
-          KD
+        <div className="flex items-center gap-2">
+          <div className="hidden md:block text-right">
+            <p className="text-xs font-bold leading-none">Artist Studio</p>
+            <p className="text-[10px] opacity-50">PRO ACCESS</p>
+          </div>
+          <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-red-600/20">
+            KD
+          </div>
         </div>
       </div>
     </header>
