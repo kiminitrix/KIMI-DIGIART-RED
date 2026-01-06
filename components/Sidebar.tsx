@@ -78,9 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActive
         </nav>
 
         <div className="p-6">
-          <div className={`p-4 rounded-2xl border ${darkMode ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-red-50 border-red-100 text-red-800'} text-xs font-medium`}>
-            Premium AI Art Studio
-          </div>
+          {/* Bottom padding area */}
         </div>
       </aside>
     </>
