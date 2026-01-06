@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Sun, Moon, Menu } from 'lucide-react';
+import { Sun, Moon, Menu, Crown } from 'lucide-react';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -35,11 +35,11 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar })
         </button>
         <div className="flex items-center gap-2">
           <div className="hidden md:block text-right">
-            <p className="text-xs font-bold leading-none">Artist Studio</p>
-            <p className="text-[10px] opacity-50">PRO ACCESS</p>
+            <p className="text-xs font-bold leading-none">Kimi Studio</p>
+            <p className="text-[10px] opacity-50">MASTER ACCESS</p>
           </div>
-          <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-xs shadow-lg shadow-red-600/20">
-            KD
+          <div className="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white shadow-lg shadow-red-600/20">
+            <Crown size={16} fill="currentColor" />
           </div>
         </div>
       </div>
