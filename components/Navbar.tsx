@@ -6,9 +6,10 @@ interface NavbarProps {
   darkMode: boolean;
   setDarkMode: (val: boolean) => void;
   toggleSidebar: () => void;
+  title: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar }) => {
+const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar, title }) => {
   return (
     <header className={`h-16 flex items-center justify-between px-6 border-b sticky top-0 z-40 backdrop-blur-md
       ${darkMode ? 'bg-black/90 border-white/10' : 'bg-white/80 border-red-100'}
@@ -21,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar })
         >
           <Menu size={20} />
         </button>
-        <h2 className={`font-semibold hidden sm:block ${darkMode ? 'text-white' : 'text-black'}`}>Studio Dashboard</h2>
+        <h2 className={`font-semibold hidden sm:block ${darkMode ? 'text-white' : 'text-black'}`}>{title}</h2>
       </div>
 
       <div className="flex items-center gap-4">

@@ -64,6 +64,7 @@ const App: React.FC = () => {
           darkMode={darkMode} 
           setDarkMode={setDarkMode} 
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+          title={activeTab}
         />
         <div className="p-4 md:p-6 lg:p-10 overflow-y-auto max-h-[calc(100vh-4rem)] custom-scrollbar">
           {renderContent()}
