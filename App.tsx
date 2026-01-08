@@ -50,7 +50,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen flex ${darkMode ? 'bg-slate-950 text-white' : 'bg-slate-50 text-black'}`}>
+    <div className={`min-h-screen flex ${darkMode ? 'bg-black text-white' : 'bg-slate-50 text-black'}`}>
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 

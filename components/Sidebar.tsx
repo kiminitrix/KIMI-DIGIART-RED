@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActive
     <>
       {/* Backdrop */}
       <div 
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-50 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity duration-300 lg:hidden ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -33,7 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, activeTab, setActive
       <aside 
         className={`fixed left-0 top-0 h-full w-72 transition-transform duration-300 ease-in-out z-[60] flex flex-col shadow-2xl
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-          ${darkMode ? 'bg-slate-950 border-r border-red-900/30' : 'bg-white border-r border-red-100'}
+          ${darkMode ? 'bg-black border-r border-white/10' : 'bg-white border-r border-red-100'}
         `}
       >
         <div className="p-6 flex items-center justify-between">

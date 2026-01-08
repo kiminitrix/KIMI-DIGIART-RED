@@ -11,7 +11,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode, toggleSidebar }) => {
   return (
     <header className={`h-16 flex items-center justify-between px-6 border-b sticky top-0 z-40 backdrop-blur-md
-      ${darkMode ? 'bg-black/80 border-red-900/50' : 'bg-white/80 border-red-100'}
+      ${darkMode ? 'bg-black/90 border-white/10' : 'bg-white/80 border-red-100'}
     `}>
       <div className="flex items-center gap-4">
         <button 
