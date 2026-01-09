@@ -44,58 +44,60 @@ const Promptable: React.FC<PromptableProps> = ({ darkMode }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className={`p-8 rounded-3xl border text-center ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-lg'}`}>
-        <h2 className="text-2xl font-bold mb-2">Image to Prompt</h2>
-        <p className="opacity-60 mb-8">Upload an image to reverse-engineer its creative prompt.</p>
+    <div className="h-full max-w-4xl mx-auto flex flex-col gap-4 overflow-hidden">
+      <div className={`p-6 rounded-2xl border text-center shrink-0 ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-lg'}`}>
+        <h2 className="text-xl font-bold mb-1 uppercase tracking-tight">Image to Prompt</h2>
+        <p className="text-[10px] opacity-60 mb-4">Reverse-engineer art into text</p>
 
-        <label className={`block w-full h-80 border-2 border-dashed rounded-3xl flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden relative
+        <label className={`block w-full h-48 md:h-64 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all overflow-hidden relative
           ${darkMode ? 'border-white/20 hover:border-red-600/50 bg-white/5' : 'border-red-200 hover:border-red-500 bg-red-50/30'}
         `}>
           {image ? (
             <img src={image} className="w-full h-full object-contain" />
           ) : (
             <>
-              <div className="p-5 bg-red-600 text-white rounded-full mb-4 shadow-lg shadow-red-900/40">
-                <Upload size={32} />
+              <div className="p-3 bg-red-600 text-white rounded-full mb-2 shadow-lg">
+                <Upload size={20} />
               </div>
-              <span className="font-bold text-lg">Drop your art here</span>
-              <span className="text-sm opacity-50">Supports PNG, JPG, WEBP</span>
+              <span className="font-bold text-sm">Drop your art here</span>
+              <span className="text-[10px] opacity-50">Supports PNG, JPG, WEBP</span>
             </>
           )}
           <input type="file" className="hidden" onChange={handleFileChange} accept="image/*" />
         </label>
       </div>
 
-      {isGenerating ? (
-        <div className={`p-12 rounded-3xl border flex flex-col items-center justify-center gap-4 ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100'}`}>
-          <Loader2 className="animate-spin text-red-600" size={48} />
-          <p className="font-medium">Analyzing artistic style and composition...</p>
-        </div>
-      ) : resultPrompt && (
-        <div className={`p-8 rounded-3xl border transition-all animate-in fade-in slide-in-from-bottom-4 ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-xl'}`}>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2 text-red-600">
-              <FileText size={20} />
-              <span className="font-bold uppercase tracking-widest text-xs">Generated Prompt</span>
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        {isGenerating ? (
+          <div className={`p-8 rounded-2xl border flex flex-col items-center justify-center gap-3 h-full ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100'}`}>
+            <Loader2 className="animate-spin text-red-600" size={32} />
+            <p className="text-xs font-bold text-red-600 animate-pulse uppercase tracking-widest">Decoding Visuals...</p>
+          </div>
+        ) : resultPrompt && (
+          <div className={`p-6 rounded-2xl border transition-all animate-in fade-in slide-in-from-bottom-4 ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-xl'}`}>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2 text-red-600">
+                <FileText size={16} />
+                <span className="font-bold uppercase tracking-widest text-[10px]">Generated Prompt</span>
+              </div>
+              <button 
+                onClick={copyToClipboard}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all
+                  ${copied ? 'bg-green-600 text-white' : 'bg-red-600 text-white hover:bg-red-700'}
+                `}
+              >
+                {copied ? <Check size={12} /> : <Copy size={12} />}
+                {copied ? 'COPIED!' : 'COPY'}
+              </button>
             </div>
-            <button 
-              onClick={copyToClipboard}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all
-                ${copied ? 'bg-green-600 text-white' : 'bg-red-600 text-white hover:bg-red-700'}
-              `}
-            >
-              {copied ? <Check size={16} /> : <Copy size={16} />}
-              {copied ? 'COPIED!' : 'COPY PROMPT'}
-            </button>
+            <div className={`p-4 rounded-xl font-medium leading-relaxed italic text-sm
+              ${darkMode ? 'bg-black border border-white/5 text-gray-200' : 'bg-red-50/50 text-gray-800'}
+            `}>
+              "{resultPrompt}"
+            </div>
           </div>
-          <div className={`p-6 rounded-2xl font-medium leading-relaxed italic text-lg
-            ${darkMode ? 'bg-black/40 text-gray-200' : 'bg-red-50/50 text-gray-800'}
-          `}>
-            "{resultPrompt}"
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

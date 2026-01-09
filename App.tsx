@@ -50,7 +50,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen flex ${darkMode ? 'bg-black text-white' : 'bg-slate-50 text-black'}`}>
+    <div className={`h-screen flex overflow-hidden ${darkMode ? 'bg-black text-white' : 'bg-slate-50 text-black'}`}>
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
@@ -58,15 +58,14 @@ const App: React.FC = () => {
         setActiveTab={setActiveTab}
         darkMode={darkMode}
       />
-      {/* Main container no longer needs margin-left as sidebar is off-canvas overlay */}
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 h-screen">
         <Navbar 
           darkMode={darkMode} 
           setDarkMode={setDarkMode} 
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
           title={activeTab}
         />
-        <div className="p-4 md:p-6 lg:p-10 overflow-y-auto max-h-[calc(100vh-4rem)] custom-scrollbar">
+        <div className="flex-1 p-3 md:p-4 overflow-hidden">
           {renderContent()}
         </div>
       </main>
