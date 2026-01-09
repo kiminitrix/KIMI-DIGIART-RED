@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ImagePlus, Sparkles, Loader2, Wand2 } from 'lucide-react';
+import { ImagePlus, Sparkles, Loader2, Wand2, X } from 'lucide-react';
 import { GeminiService } from '../services/gemini';
 import { GeneratedImage, RATIO_OPTIONS, AspectRatio } from '../types';
 import ImageResult from '../components/ImageResult';
@@ -21,8 +21,11 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files).slice(0, 5);
-      files.forEach((file: File) => {
+      const files = Array.from(e.target.files);
+      const remainingSlots = 5 - attachments.length;
+      const filesToAdd = files.slice(0, remainingSlots);
+      
+      filesToAdd.forEach((file: File) => {
         const reader = new FileReader();
         reader.onloadend = () => {
           setAttachments(prev => [...prev, reader.result as string].slice(0, 5));
@@ -71,37 +74,42 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
     <div className="h-full max-w-7xl mx-auto flex flex-col">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 overflow-hidden">
         
-        {/* Left Column: Inputs & Controls (Fixed height area) */}
+        {/* Left Column: Inputs & Controls */}
         <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
           
           {/* Reference Images Section */}
           <div className={`p-4 rounded-2xl border ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-sm'}`}>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-3">
               <h3 className="font-bold text-sm">Reference Images</h3>
-              <span className="text-[10px] text-red-500 font-bold uppercase">Max 5</span>
+              <span className="text-[10px] text-red-500 font-bold uppercase tracking-wider">Max 5</span>
             </div>
-            <label className={`w-full h-24 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all
-              ${darkMode ? 'border-white/20 hover:border-red-600/50 bg-white/5' : 'border-red-200 hover:border-red-500 bg-red-50/30'}
-            `}>
-              <ImagePlus className="text-red-600 mb-1" size={20} />
-              <span className="text-[10px] opacity-60">Click to upload</span>
-              <input type="file" multiple className="hidden" onChange={handleFileChange} accept="image/*" />
-            </label>
-            {attachments.length > 0 && (
-              <div className="grid grid-cols-5 gap-1.5 mt-2">
-                {attachments.map((img, i) => (
-                  <div key={i} className="relative aspect-square rounded-md overflow-hidden border border-red-600/30">
-                    <img src={img} className="w-full h-full object-cover" />
-                    <button 
-                      onClick={() => setAttachments(prev => prev.filter((_, idx) => idx !== i))}
-                      className="absolute top-0 right-0 bg-red-600 text-white p-0.5 rounded-bl-md"
-                    >
-                      <Loader2 size={8} className="rotate-45" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+            
+            <div className={`flex items-center gap-3 ${attachments.length > 0 ? 'overflow-x-auto custom-scrollbar pb-2' : ''}`}>
+              {/* Upload Box */}
+              <label className={`shrink-0 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[0.98] active:scale-95
+                ${attachments.length === 0 ? 'w-full h-28' : 'w-20 h-20'}
+                ${darkMode ? 'border-white/20 hover:border-red-600/50 bg-white/5' : 'border-red-200 hover:border-red-500 bg-red-50/30'}
+              `}>
+                <ImagePlus className="text-red-600 mb-1" size={attachments.length === 0 ? 24 : 18} />
+                <span className={`${attachments.length === 0 ? 'text-[11px]' : 'text-[8px]'} opacity-60 text-center px-1 font-medium`}>
+                  {attachments.length === 0 ? 'Click to upload' : 'Click to upload'}
+                </span>
+                <input type="file" multiple className="hidden" onChange={handleFileChange} accept="image/*" />
+              </label>
+
+              {/* Thumbnails */}
+              {attachments.map((img, i) => (
+                <div key={i} className="relative w-20 h-20 shrink-0 rounded-xl overflow-hidden border border-red-600/30 group">
+                  <img src={img} className="w-full h-full object-cover" alt="ref" />
+                  <button 
+                    onClick={() => setAttachments(prev => prev.filter((_, idx) => idx !== i))}
+                    className="absolute top-0 right-0 bg-red-600 text-white p-1 rounded-bl-lg shadow-md hover:bg-red-700 transition-colors"
+                  >
+                    <X size={10} strokeWidth={3} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Controls Section */}
@@ -170,7 +178,7 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
           </div>
         </div>
 
-        {/* Right Column: Results (Fills remaining height) */}
+        {/* Right Column: Results */}
         <div className="lg:col-span-8 h-full flex flex-col">
           <div className={`flex-1 p-4 rounded-2xl border flex flex-col overflow-hidden ${darkMode ? 'bg-white/5 border-white/10' : 'bg-white border-red-100 shadow-sm'}`}>
             <h3 className="font-bold text-sm mb-3">Generated Results</h3>
@@ -181,7 +189,7 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
                     <Loader2 className="animate-spin text-red-600" size={48} />
                     <Sparkles className="absolute -top-1 -right-1 text-yellow-400" size={16} />
                   </div>
-                  <p className="animate-pulse font-bold text-red-600">Forging art...</p>
+                  <p className="animate-pulse font-bold text-red-600 uppercase tracking-tighter">Forging art...</p>
                 </div>
               ) : results.length > 0 ? (
                 <div className={`grid gap-4 ${count > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
@@ -198,7 +206,7 @@ const Imaginable: React.FC<ImaginableProps> = ({ darkMode, onSave }) => {
               ) : (
                 <div className="h-full flex flex-col items-center justify-center opacity-10">
                   <Wand2 size={60} />
-                  <p className="mt-4 font-bold">Canvas Awaiting Inspiration</p>
+                  <p className="mt-4 font-bold uppercase tracking-widest text-sm">Canvas Awaiting Inspiration</p>
                 </div>
               )}
             </div>
